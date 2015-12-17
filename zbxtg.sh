@@ -47,7 +47,7 @@ then
     then
         TG_CHAT_ID=$(echo "${TG_UPDATES}" | sed -e 's/["}{]//g' | awk -F ',' '{if ($8 == "type:group" && $7 == "title:'${TO}'") {gsub("chat:id:", "", $6); print $6}}' | tail -1)
     else
-        TG_CHAT_ID=$(echo "${TG_UPDATES}" | sed -e 's/["}{]//g' | awk -F ',' '{if ($10 == "type:private" && $5 == "username:'${TO}'") {gsub("chat:id:", "", $6); print $6}}' | tail -1)
+        TG_CHAT_ID=$(echo "${TG_UPDATES}" | awk -F ',' '{print $6}' | sed 's/"chat":{"id"://g;/^$/d'
     fi
     echo "${TO};${TG_CONTACT_TYPE};${TG_CHAT_ID}" >> ${TMP_UIDS}
 fi
